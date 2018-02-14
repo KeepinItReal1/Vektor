@@ -1,13 +1,13 @@
 #include <iostream>
-#include <string.h>
+#include <string>
+#include <utility>
 
-
-using namespace std;
+using std::cout; using std::endl;using std::cin;
 bool Lytis(char j[255]);
 
 void PilnosEilutes(char j[255])
 {
-    int m = (unsigned)strlen(j);//vardo ilgis
+    int m = strlen(j);//vardo ilgis
     for (int i=0; i<(m+14);i++)
     {cout<<"*";}
     cout<<"\n";
@@ -15,7 +15,7 @@ void PilnosEilutes(char j[255])
 
 void NepilnosEilutes(char j[255])
 {
-    int m = (unsigned)strlen(j);
+    int m = strlen(j);
     cout<<"*";
     for(int i=0;i<(m+12);i++)
     {
