@@ -1,14 +1,13 @@
 #include <iostream>
 #include <string>
-#include <stack>
 #include <sstream>
 #include <stdlib.h>
 #include <random>
 #include <time.h>
-#include <chrono>
 #include <functional>
 #include <vector>
 #include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
@@ -84,10 +83,9 @@ mediana=int_vector[(divresult.quot)];
 mediana=(mediana+mediana1)/2;
 cout<<"\nMediana:"<<mediana;
 }
-Vid=VidSum/skait;
-float galBalas=0.4*Vid+0.6*egzas;
-cout.precision(3);
-cout<<"\nGalBalas="<<galBalas<<endl;
+Vid=static_cast<float>(VidSum)/static_cast<float>(skait);
+float galBalas=0.4*static_cast<float>(Vid) + 0.6*static_cast<float>(egzas);
+cout<<setprecision(3)<<"\nGalBalas="<<galBalas<<endl;
 
 return 0;
 }
