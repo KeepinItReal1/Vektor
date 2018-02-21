@@ -116,8 +116,8 @@ mediana=A[(divresult.quot)];
 mediana=(mediana+mediana1)/2;
 cout<<"\nMediana:"<<mediana;
 }
-Vid=VidSum/skait;
-float galBalas=0.4*Vid + 0.6*egzas;
+Vid=static_cast<float>(VidSum)/static_cast<float>(skait);
+float galBalas=0.4*static_cast<float>(Vid) + 0.6*static_cast<float>(egzas);
 cout<<setprecision(3)<<"\nGalBalas="<<galBalas<<endl;
 return 0;
 }
