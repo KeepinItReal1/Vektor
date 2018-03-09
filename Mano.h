@@ -40,16 +40,16 @@ inf.exceptions ( ifstream::failbit /*| ifstream::badbit*/ );
 try{
 inf.open(failas.c_str());
 string line;
+for(int i=0;i<skaic;i++){
 while (getline(inf, line)){
     istringstream S(line);//linija
     vector<string>elementai;//atskiri string
     string temp="";
 
-    while (S>>temp)elementai.push_back(temp);//perziureti veliau del exceptions
+    while (S>>temp){elementai.push_back(temp);}//perziureti veliau del exceptions
 
     auto dydis= elementai.size();
 
-    for(int i=0;i<skaic;i++){
     root[i].pavarde=elementai[0];
     root[i].vardas=elementai[1];
     int laikinas;
@@ -59,7 +59,7 @@ while (getline(inf, line)){
     }
     stringstream(elementai[dydis])>>laikinas;
     root[i].egzas=laikinas;
-    }
+}
 inf.close();
 }
 }catch (const ifstream::failure e){cout << "Exception opening/reading file";}
@@ -73,8 +73,7 @@ auto dydis= root[i].int_vector.size();
 
 if(dydis==0)
 {
-    cout<<"Root tuscias."<<endl;
-    return 1;
+cout<<"Root tuscias."<<endl;
 }
 else{
     float Vid=0;int VidSum=0;
@@ -82,7 +81,7 @@ else{
     for(int k=0;k<NdIvedimas;k++){
         VidSum=VidSum+root[i].int_vector[k];
     }
-    Vid=static_cast<float>(VidSum)/static_cast<float>(5);
+    Vid=static_cast<float>(VidSum)/static_cast<float>(NdIvedimas);
     float galBalas=0.4*static_cast<float>(Vid) + 0.6*static_cast<float>(root[i].egzas);
     float mediana=0;
 if (dydis==1){ mediana=root[i].int_vector[0];}
@@ -96,8 +95,8 @@ mediana=(root[i].int_vector[(dydis/2)-1]+root[i].int_vector[dydis/2])/2;
 
 if((root[i].pavarde=="")&&(root[i].vardas=="")){break;}
 
-cout<< setw(15) << root[i].pavarde << setw(15) << root[i].vardas;cout<<setw(5)<<setprecision(3)<<galBalas
-<<setw(5)<<setprecision(3)<<mediana<< setw(4) << root[i].egzas <<endl ;
+cout<< setw(15) << root[i].pavarde << setw(15) << root[i].vardas;cout<<setw(5)<<std::fixed<<setprecision(2)<<galBalas
+<<setw(5)<<std::fixed<<setprecision(2)<<mediana<< setw(4) << root[i].egzas <<endl ;
     }}
 }
 
@@ -134,7 +133,6 @@ ss<<i;
 root[i].pavarde=ss.str();
 
 root[i].vardas=ss.str();
-
 
 /*
 cout<<"Jei norite ivertinimus generuoti atsitiktinai spauskite 't'."<<endl;
