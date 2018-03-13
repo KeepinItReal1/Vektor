@@ -1,8 +1,7 @@
-#ifndef MANOFUNKCIJOS1_H
-#define MANOFUNKCIJOS1_H
+#ifndef MANO_H
+#define MANO_H
 
 
-#include "Mano.h"
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -26,22 +25,21 @@ struct node {
 	int egzas;
 };
 
-const string failas("kursiokai.txt");
-int NdIvedimas=100;//kiek nd bus sugeneruota
-int ivedimas=10;//kiek bus asmenu ivedimas<skaic
-int skaic=10;//saraso limitas, 10 del grazumo
+string failas("kursiokai.txt");
+int NdIvedimas=rand() % 100 + 10;//kiek nd pazymiu bus sugeneruota
+int ivedimas=10;//kiek bus sugeneruota asmenu (ivedimas<skaic)
+int skaic=100000;//saraso limitas
 node *root= new node[skaic];
 
 
-skaityti(){//skaito duomenis is failo, iraso juos i root
-//https://stackoverflow.com/questions/42982633/reading-an-input-file-line-by-line-using-string-stream cia man
+void skaityti(){//skaito duomenis is failo, iraso juos i root
 ifstream inf;
-inf.exceptions ( ifstream::failbit /*| ifstream::badbit*/ );
+inf.exceptions ( ifstream::failbit  );
 try{
-inf.open(failas.c_str());
+inf.open(failas);
 string line;
-for(int i=0;i<skaic;i++){
-while (getline(inf, line)){
+int i=0;
+while((i<skaic)&&(getline(inf, line))){
     istringstream S(line);//linija
     vector<string>elementai;//atskiri string
     string temp="";
@@ -59,14 +57,14 @@ while (getline(inf, line)){
     }
     stringstream(elementai[dydis])>>laikinas;
     root[i].egzas=laikinas;
+    i++;
 }
 inf.close();
-}
-}catch (const ifstream::failure e){cout << "Exception opening/reading file";}
+}catch (const ifstream::failure e){cout << "Exception opening/reading file"<<endl;}
 }
 
 
-spausdinti(){//spausdina root esancius duomenis
+void spausdinti(){//spausdina root esancius duomenis
 for(int i=0;i<skaic;i++){
 
 auto dydis= root[i].int_vector.size();
@@ -74,6 +72,7 @@ auto dydis= root[i].int_vector.size();
 if(dydis==0)
 {
 cout<<"Root tuscias."<<endl;
+break;
 }
 else{
     float Vid=0;int VidSum=0;
@@ -100,8 +99,8 @@ cout<< setw(15) << root[i].pavarde << setw(15) << root[i].vardas;cout<<setw(5)<<
     }}
 }
 
-issaugoti(){// iraso i faila esamus root duomenis
-    ofstream myfile ( "kursiokai.txt" );
+void issaugoti(){// iraso i faila esamus root duomenis
+    ofstream myfile ( failas);
     if (myfile.is_open())
     {
      for(int i=0;i<ivedimas;i++){//kol nera paskutinis root
@@ -118,7 +117,7 @@ issaugoti(){// iraso i faila esamus root duomenis
         else cout<<"Cannot open file."<<endl;
 }
 
-ivesti()//ivedimas i root
+void ivesti()//ivedimas i root
 {auto seed = chrono::high_resolution_clock::now().time_since_epoch().count();
 mt19937 mt(seed);
 /*cout<<"Pasirinkite kiek norite kartu ivesti duomenis(nuo 1 iki 100):";
@@ -166,6 +165,13 @@ root[i].int_vector.push_back(result);
 }*/
 }
 
+static double diffclock(clock_t clock1,clock_t clock2)
+{
+    double diffticks=clock1-clock2;
+    double diffms=(diffticks)/(CLOCKS_PER_SEC/1000);
+    return diffms;
+}
+
 
 
 /*
@@ -180,6 +186,6 @@ void ivesti();//duomenu ivedimas
     private:
 };
 */
-#endif // MANOFUNKCIJOS1_H
+#endif // MANO_H
 
 
