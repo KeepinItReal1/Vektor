@@ -31,6 +31,9 @@ int ivedimas=10;//kiek bus sugeneruota asmenu (ivedimas<skaic)
 int skaic=100000;//saraso limitas
 node *root= new node[skaic];
 
+vector<node> vargsiukai;//balas maziau uz 60 % FeelsBadMan
+vector<node> kietakai;//balas >= 60 %
+
 
 void skaityti(){//skaito duomenis is failo, iraso juos i root
 ifstream inf;
@@ -83,14 +86,21 @@ else{
     Vid=static_cast<float>(VidSum)/static_cast<float>(NdIvedimas);
     float galBalas=0.4*static_cast<float>(Vid) + 0.6*static_cast<float>(root[i].egzas);
     float mediana=0;
-if (dydis==1){ mediana=root[i].int_vector[0];}
+
+     if(galBalas<6.0){
+    vargsiukai.push_back(root[i]);
+    }
+    else {//galBalas>=6.0
+    kietakai.push_back(root[i]);
+    }
+
+
 if(dydis%2==1){//nelyginiu skaiciu mediana
- mediana=root[i].int_vector[dydis/2];
+ if (dydis==1){ mediana=root[i].int_vector[0];}
+ else{mediana=root[i].int_vector[dydis/2];}
 }
 else//lyginiu skaiciu mediana
-{
-mediana=(root[i].int_vector[(dydis/2)-1]+root[i].int_vector[dydis/2])/2;
-}
+{mediana=(root[i].int_vector[(dydis/2)-1]+root[i].int_vector[dydis/2])/2;}
 
 if((root[i].pavarde=="")&&(root[i].vardas=="")){break;}
 

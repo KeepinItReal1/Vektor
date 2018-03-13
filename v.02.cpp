@@ -6,8 +6,10 @@ using namespace std;
 int main(){
 clock_t pradzia;pradzia=clock();
 //kursiokai.txt
-ivesti();
-issaugoti();
+//ivesti();
+//issaugoti();
+skaityti();//i ekrana isveda ir isrusiuoja
+spausdinti();
 clock_t start;start=clock();
 
 failas="kursiokai1.txt";ivedimas=100;
@@ -30,8 +32,7 @@ ivesti();
 issaugoti();
 clock_t start4;start4=clock();
 
-//skaityti();
-//spausdinti();
+
 
 cout<<diffclock(start,pradzia)<<"ms\tkursiokai.txt"<<endl;
 cout<<diffclock(start1,start)<<"ms\tkursiokai1.txt"<<endl;
