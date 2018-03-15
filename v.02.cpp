@@ -6,10 +6,10 @@ using namespace std;
 int main(){
 clock_t pradzia;pradzia=clock();
 //kursiokai.txt
-//ivesti();
-//issaugoti();
-skaityti();//i ekrana isveda ir isrusiuoja
-spausdinti();
+ivesti();
+issaugoti();
+//skaityti();//i ekrana isveda ir isrusiuoja
+//spausdinti();
 clock_t start;start=clock();
 
 failas="kursiokai1.txt";ivedimas=100;

@@ -23,13 +23,16 @@ struct node {
 	string vardas;
     vector<int> int_vector;
 	int egzas;
+	double vidurkis;
+	double median;
 };
 
 string failas("kursiokai.txt");
 int NdIvedimas=rand() % 100 + 10;//kiek nd pazymiu bus sugeneruota
 int ivedimas=10;//kiek bus sugeneruota asmenu (ivedimas<skaic)
 int skaic=100000;//saraso limitas
-node *root= new node[skaic];
+
+vector<node>pagr;
 
 vector<node> vargsiukai;//balas maziau uz 60 % FeelsBadMan
 vector<node> kietakai;//balas >= 60 %
@@ -51,128 +54,77 @@ while((i<skaic)&&(getline(inf, line))){
 
     auto dydis= elementai.size();
 
-    root[i].pavarde=elementai[0];
-    root[i].vardas=elementai[1];
+    pagr.pavarde=elementai[0];
+    pagr.vardas=elementai[1];
     int laikinas;
     for(int l=0;l<dydis-3;l++){//pirmi du jau yra
     stringstream(elementai[l+2])>>laikinas;
-    root[i].int_vector.push_back(laikinas);
+    pagr.int_vector.push_back(laikinas);
     }
     stringstream(elementai[dydis])>>laikinas;
-    root[i].egzas=laikinas;
+    pagr.egzas=laikinas;
     i++;
 }
 inf.close();
-}catch (const ifstream::failure e){cout << "Exception opening/reading file"<<endl;}
+}catch (const ifstream::failure e){
+if (!inf.eof())
+std::cout << "Failed to read from " + failas << std::endl;}
 }
 
 
 void spausdinti(){//spausdina root esancius duomenis
-for(int i=0;i<skaic;i++){
+    for(int i=0;i<skaic;i++){
+        auto dydis= pagr[i].size();
 
-auto dydis= root[i].int_vector.size();
-
-if(dydis==0)
-{
-cout<<"Root tuscias."<<endl;
-break;
-}
-else{
-    float Vid=0;int VidSum=0;
-    sort(root[i].int_vector.begin(),root[i].int_vector.end());
-    for(int k=0;k<NdIvedimas;k++){
-        VidSum=VidSum+root[i].int_vector[k];
-    }
-    Vid=static_cast<float>(VidSum)/static_cast<float>(NdIvedimas);
-    float galBalas=0.4*static_cast<float>(Vid) + 0.6*static_cast<float>(root[i].egzas);
-    float mediana=0;
-
-     if(galBalas<6.0){
-    vargsiukai.push_back(root[i]);
-    }
+        if(dydis==0){
+            cout<<"Root tuscias."<<endl;
+            std::terminate;
+        }else{
+            if(galBalas<6.0){
+                vargsiukai.push_back(pagr[i]);
+            }
     else {//galBalas>=6.0
-    kietakai.push_back(root[i]);
+    kietakai.push_back(pagr[i]);
     }
+if((pagr[i].pavarde=="")&&(pagr[i].vardas=="")){break;}
 
-
-if(dydis%2==1){//nelyginiu skaiciu mediana
- if (dydis==1){ mediana=root[i].int_vector[0];}
- else{mediana=root[i].int_vector[dydis/2];}
-}
-else//lyginiu skaiciu mediana
-{mediana=(root[i].int_vector[(dydis/2)-1]+root[i].int_vector[dydis/2])/2;}
-
-if((root[i].pavarde=="")&&(root[i].vardas=="")){break;}
-
-cout<< setw(15) << root[i].pavarde << setw(15) << root[i].vardas;cout<<setw(5)<<std::fixed<<setprecision(2)<<galBalas
-<<setw(5)<<std::fixed<<setprecision(2)<<mediana<< setw(4) << root[i].egzas <<endl ;
+cout<< setw(15) << pagr[i].pavarde << setw(15) << pagr[i].vardas;cout<<setw(5)<<std::fixed<<setprecision(2)<<galBalas
+<<setw(5)<<std::fixed<<setprecision(2)<<mediana<< setw(4) << pagr[i].egzas <<endl ;
     }}
 }
 
 void issaugoti(){// iraso i faila esamus root duomenis
-    ofstream myfile ( failas);
-    if (myfile.is_open())
-    {
-     for(int i=0;i<ivedimas;i++){//kol nera paskutinis root
+    ofstream myfile (failas);
+    if(myfile.is_open()){
+        for(int i=0;i<ivedimas;i++){
 
-    myfile << setw(15) << root[i].pavarde << setw(15) << root[i].vardas ;
-    for(int k=0;k<NdIvedimas;k++)
-    {
-    myfile<< setw(5) << root[i].int_vector[k];
-    }
-    myfile << setw(5) << root[i].egzas <<endl ;
-
+            myfile << setw(15) << pagr[i].pavarde << setw(15) << pagr[i].vardas ;
+            for(int k=0;k<NdIvedimas;k++){
+                myfile<< setw(5) << pagr[i].int_vector[k];
+            }
+            myfile << setw(5) << pagr[i].egzas <<endl ;
         }
-        myfile.close();}
-        else cout<<"Cannot open file."<<endl;
+        myfile.close();
+        }
+    else cout<<"Cannot open file."<<endl;
 }
 
-void ivesti()//ivedimas i root
-{auto seed = chrono::high_resolution_clock::now().time_since_epoch().count();
-mt19937 mt(seed);
-/*cout<<"Pasirinkite kiek norite kartu ivesti duomenis(nuo 1 iki 100):";
-string ivedimass="";cin>>ivedimass;int IN=0;stringstream(ivedimass)>>IN;cout<<"Jusu pasirinktas kiekis:"<<IN<<endl;*/
-for(int i=0;i<ivedimas;i++){
-/*cout<<"Iveskite savo pavarde:";cin>>root[i].pavarde;
-cout<<"Iveskite savo varda:";cin>>root[i].vardas;
-cout<<"Iveskite egzamino pazymi:";
-string egzas1="";cin>>egzas1;stringstream(egzas1)>>root[i].egzas;cout<<endl;*/
-stringstream ss;
-ss<<i;
-root[i].pavarde=ss.str();
+void ivesti(){//ivedimas i root
+    auto seed = chrono::high_resolution_clock::now().time_since_epoch().count();
+    mt19937 mt(seed);
+    for(int i=0;i<ivedimas;i++){
+        stringstream ss;
+        ss<<i;
+        pagr[i].pavarde="vardas"+ss.str();
 
-root[i].vardas=ss.str();
+        pagr[i].vardas="pavarde"+ss.str();
 
-/*
-cout<<"Jei norite ivertinimus generuoti atsitiktinai spauskite 't'."<<endl;
-string symbol="t";
-string stringas1="";cin>>stringas1;
-if(stringas1.compare(symbol)==0)//random generacija
-{
-*/
-
-uniform_int_distribution<int> skaicius(1,10);
-root[i].egzas=skaicius(mt);
-for(int s=0;s<NdIvedimas;s++){
-
-root[i].int_vector.push_back(skaicius(mt));
-}
-}
-/*
-else{
-cout<<"Veskite  5 ivertinimus(neteisingi simboliai nebus imami)."<<endl;
-string stringas="";
-for(int h=0;h<5;h++){
-cin>>stringas;
-int result=0;
-stringstream(stringas)>>result;
-if((result>0)&&(result<=10)){
-root[i].int_vector.push_back(result);
-}
-
-}
-}
-}*/
+        uniform_int_distribution<int> skaicius(1,10);
+        pagr[i].egzas=skaicius(mt);
+        for(int s=0;s<NdIvedimas;s++){
+            pagr[i].int_vector.push_back(skaicius(mt));
+        }
+    }
 }
 
 static double diffclock(clock_t clock1,clock_t clock2)
@@ -182,20 +134,26 @@ static double diffclock(clock_t clock1,clock_t clock2)
     return diffms;
 }
 
+double mediana(vector<int>&V){//grazina vektoriaus mediana
+    sort(V.begin(),V.end());
+    auto dydis= V.size();
+    if(dydis==0){
+        throw std::domain_error("Tuscio vectoriaus medianos nera.")
+    }
+    return dydis % 2 == 1 ? (V[dydis/2]) : (V[(dydis/2)-1]+V[dydis/2])/2;//po ? pirmas tiesa
+}
 
+double vidurkis(vector<int>&V){//grazina vektoriaus vidurki
+    auto dydis= V.size();
+    if(dydis==0){
+        throw std::domain_error("Tuscio vectoriaus vidurkio nera.")
+    }
+    auto VidSum =std::accumulate(V.begin(), V.end(), 0.0);
+    return static_cast<float>(VidSum)/static_cast<float>(dydis);
+}
 
-/*
-class ManoFunkcijos
-{
-    public:
-void skaityti();//skaito duomenis is failo, iraso juos i root
-void spausdinti();//spausdina root esancius duomenis
-void issaugoti();// iraso i faila esamus root duomenis
-void ivesti();//duomenu ivedimas
-
-    private:
-};
-*/
+//sulieti ivesti ir issaugoti funkcijas
 #endif // MANO_H
+//float galBalas=0.4*static_cast<float>(Vid) + 0.6*static_cast<float>(pagr.);
 
 
