@@ -1,35 +1,24 @@
-#include "Mano.h"
+#include "ManoFunkcijos.h"
 
-using namespace std;
+using std::cout;
 
 
 int main(){
 clock_t pradzia;pradzia=clock();
-//kursiokai.txt
-ivesti();
-issaugoti();
-//skaityti();//i ekrana isveda ir isrusiuoja
-//spausdinti();
+
+SafeToFile();//kursiokai.txt , 10
 clock_t start;start=clock();
 
-failas="kursiokai1.txt";ivedimas=100;
-ivesti();
-issaugoti();
+SafeToFile("kursiokai1.txt",100);
 clock_t start1;start1=clock();
 
-failas="kursiokai2.txt";ivedimas=1000;
-ivesti();
-issaugoti();
+SafeToFile("kursiokai2.txt",1000);
 clock_t start2;start2=clock();
 
-failas="kursiokai3.txt";ivedimas=10000;
-ivesti();
-issaugoti();
+SafeToFile("kursiokai3.txt",10000);
 clock_t start3;start3=clock();
 
-failas="kursiokai4.txt";ivedimas=100000;
-ivesti();
-issaugoti();
+SafeToFile("kursiokai4.txt",100000);
 clock_t start4;start4=clock();
 
 
