@@ -1,7 +1,6 @@
 #ifndef MANOFUNKCIJOS_H
 #define MANOFUNKCIJOS_H
 
-
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -15,32 +14,29 @@
 #include <fstream>
 #include <chrono>
 #include <stdexcept>
+#include <list>
+#include <deque>
 
-using namespace std;
+
 
 struct node {
-	string pavarde;
-	string vardas;
-    vector<int> int_vector;
+	std::string pavarde;
+	std::string vardas;
+    std::vector<int> int_vector;
 	int egzas;
 	double Averag;
 	double median;
 };
 
-string failas("kursiokai.txt");
-int NdIvedimas=rand() % 100 + 10;//kiek nd pazymiu bus sugeneruota
-int ivedimas=10;//kiek bus sugeneruota asmenu (ivedimas<skaic)
 
-vector<node>pagr;
+void readFromFile(std::vector<node>&,std::string failas="kursiokai.txt");//skaito duomenis is failo, juos issaugo
+void printOnScreen(std::vector<node>&);//spausdina nuskaitytus duomenis
+double diffclock(clock_t,clock_t);//skaiciuoja laika ms tarp clock1 ir clock2
+double mediana(std::vector<int>&);//grazina vektoriaus mediana
+double vidurkis(std::vector<int>&);//grazina vektoriaus vidurki
+void saveToFile(std::vector<node>&,std::vector<node>&,std::vector<node>&,std::string,int);// sukuria [ivedimas] random reiksmiu ir iraso jas i faila
+void readFromFileList();
+void readFromFileDeque();
 
-vector<node> vargsiukai;//balas maziau uz 50 % FeelsBadMan
-vector<node> kietakai;//balas >=50 %
 
-
-void ReadFromFile();//skaito duomenis is failo, juos issaugo
-void PrintOnScreen();//spausdina nuskaitytus duomenis
-double diffclock(clock_t clock1,clock_t clock2);//skaiciuoja laika ms tarp clock1 ir clock2
-double mediana(vector<int>&V);//grazina vektoriaus mediana
-double vidurkis(vector<int>&V);//grazina vektoriaus vidurki
-void SafeToFile(std::string failas1="kursiokai.txt",int ivedimas=10);// sukuria [ivedimas] random reiksmiu ir iraso jas i faila
 #endif // MANOFUNKCIJOS_H
