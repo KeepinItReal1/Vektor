@@ -48,6 +48,20 @@ double vidurkis(std::vector<int>&V){//grazina vektoriaus vidurki
     return static_cast<float>(VidSum)/static_cast<float>(dydis);
 }
 
+template<typename T> void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved){//pabandymui
+    node vnt;
+    vnt.pavarde = Vpavarde;
+    vnt.vardas = Vvardas;
+    vnt.egzas = Vegzas;
+    vnt.int_vector = Ved;
+    try{
+        vnt.Averag = vidurkis(Ved);
+        vnt.median = mediana(Ved);
+    }catch (std::domain_error e){std::cout<<e.what();}
+    vedimas.push_back(vnt);
+    
+}
+
 
 template<typename T>void printOnScreen(T&V){//spausdina varda, pavarde, vidurki, mediana, egzamino pazymi
     for(const auto & i:V){
@@ -79,14 +93,10 @@ template<typename T>void testavimas(int skc=5){//skaito ir rusiuoja su deque,vec
             }
 
         }
-        std::cout<<"pagr "<<pagr.size()<<std::endl;  
-        std::cout<<"lievi "<<lievi.size()<<std::endl;
-        std::cout<<"geri "<<geri.size()<<std::endl;
         
- 
         auto end = std::chrono::steady_clock::now();
         std::cout<<std::setw(plotis)<<std::left<<"kursiokai"+std::to_string(j)+".txt"<<std::internal<<"| "
-        <<std::setw(plotis)<<std::right<<std::chrono::duration <double> (end-start).count()<<std::endl;
+        <<std::setw(plotis)<<std::right<<std::chrono::duration <double> (end-start).count()<<"s"<<std::endl;
     }
 }
 
@@ -126,7 +136,12 @@ void subjectOne(){//interface'as
             std::cout<<"Failas kursiokai"+std::to_string(i)+".txt sugeneruotas per "<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;
         }
         
+        std::cout<<"Vector"<<std::endl;
         testavimas<std::vector<node>>();
+        std::cout<<"List"<<std::endl;
+        testavimas<std::list<node>>();
+        std::cout<<"Deque"<<std::endl;
+        testavimas<std::deque<node>>();
 
         std::terminate();
     }
@@ -140,10 +155,10 @@ void subjectOne(){//interface'as
 
 template<typename T> void readFromFile(std::string failas, T &konteineris){//skaito duomenis is failo, juos issaugo
 std::ifstream inf;
-node vnt;
-inf.open(failas);
-std::string line;
-try{
+    // node vnt;
+    inf.open(failas);
+    std::string line;
+
     while(std::getline(inf, line)){
         std::istringstream S(line);//linija
         std::vector<std::string>elementai;//atskiri string
@@ -152,19 +167,19 @@ try{
             elementai.push_back(temp);
         }
         auto dydis=elementai.size();
-        vnt.pavarde=elementai[0];
-        vnt.vardas=elementai[1];
+        // vnt.pavarde=elementai[0];// trunka daug ilgiau, kodel?
+        // vnt.vardas=elementai[1];
+        std::vector<int> paz;
         int laikinas;
         for(int l=2;l<dydis-1;l++){//pirmi du jau yra
-            vnt.int_vector.push_back(std::stoi(elementai[l]));// max narys dydis-2
+            paz.push_back(std::stoi(elementai[l]));// max narys dydis-2
         }
-        vnt.egzas=std::stoi(elementai[dydis-1]);
-                vnt.Averag=vidurkis(vnt.int_vector);
-            vnt.median=mediana(vnt.int_vector);
-            
-        konteineris.push_back(vnt);
+        // vnt.egzas=std::stoi(elementai[dydis-1]);
+        // vnt.Averag=vidurkis(vnt.int_vector);
+        // vnt.median=mediana(vnt.int_vector);
+        plius(konteineris,elementai[0],elementai[1],std::stoi(elementai[dydis-1]),paz);
+        // konteineris.push_back(vnt);
     }
-}catch (std::domain_error e){std::cout<<e.what();}
 inf.close();
 }
 
