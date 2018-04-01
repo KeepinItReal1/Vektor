@@ -18,6 +18,7 @@
 #include <deque>//std::deque
 #include <list>//std::list
 #include <math.h>//pow
+#include <sstream>//stringstream
 
 
 struct node {
@@ -28,6 +29,8 @@ struct node {
 	double Averag;
 	double median;
 };
+
+struct vektoriui{std::vector<int>vektorius;};
 
 
 double mediana(std::vector<int>&V){//grazina vektoriaus mediana
@@ -48,7 +51,7 @@ double vidurkis(std::vector<int>&V){//grazina vektoriaus vidurki
     return static_cast<float>(VidSum)/static_cast<float>(dydis);
 }
 
-template<typename T> void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved){//pabandymui
+template<typename T> void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved){//prideda struktura prie duomenu laikiklio
     node vnt;
     vnt.pavarde = Vpavarde;
     vnt.vardas = Vvardas;
@@ -101,39 +104,163 @@ template<typename T>void testavimas(int skc=5){//skaito ir rusiuoja su deque,vec
 }
 
 
-void saveToFile(std::string failas,unsigned int ivedimas){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
+void saveToFile(std::string failas,unsigned int ivedimas, int egzaminas,int NdIvedimas){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
     std::ofstream myfile (failas);
     if(myfile.is_open()){
         static std::mt19937 mt(std::chrono::high_resolution_clock::now().time_since_epoch().count());
         std::uniform_int_distribution<int> skc(1,10);
         std::uniform_int_distribution<int> NdSkc(1,10);
-        auto NdIvedimas=NdSkc(mt);//kiek nd pazymiu bus sugeneruota
+        if(NdIvedimas==0){
+            NdIvedimas=NdSkc(mt);//kiek nd pazymiu bus sugeneruota
+        }
         node vnt;
         for(unsigned int i=0;i<ivedimas;i++){//reiksmiu generavimas          
             myfile << std::setw(15) << "pavarde"+std::to_string(i)<< std::setw(15) << "vardas"+std::to_string(i);
-            for(unsigned int k=0;k<NdIvedimas;k++){
-                myfile<< std::setw(5) << skc(mt);//Nd pazymiai
+                for(unsigned int k=0;k<NdIvedimas;k++){
+                    myfile<< std::setw(5) << skc(mt);//Nd pazymiai
+                }
+
+            if(egzaminas!=0){//jei ivestas norimas pazymys
+                myfile << std::setw(5) << egzaminas <<std::endl ;//egzas
+            }else{
+                myfile << std::setw(5) << skc(mt) <<std::endl ;//egzas
             }
-            myfile << std::setw(5) << skc(mt) <<std::endl ;//egzas
+        }myfile.close();
+    }else std::cout<<"Cannot open file."<<std::endl;
+}
+
+
+void saveToFilePersonal(std::string failas,unsigned int ivedimas, int egzaminas,std::vector<vektoriui>L){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
+    std::ofstream myfile (failas);
+    if(myfile.is_open()){
+        static std::mt19937 mt(std::chrono::high_resolution_clock::now().time_since_epoch().count());
+        std::uniform_int_distribution<int> skc(1,10);
+        node vnt;
+        for(unsigned int i=0;i<ivedimas;i++){//reiksmiu generavimas          
+            myfile << std::setw(15) << "pavarde"+std::to_string(i)<< std::setw(15) << "vardas"+std::to_string(i);
+
+                while(!L[i].vektorius.empty()){
+                    myfile<< std::setw(5) << L[i].vektorius.back();//Nd pazymiai
+                    L[i].vektorius.pop_back();
+                }
+
+            if(egzaminas!=0){//jei ivestas norimas pazymys
+                myfile << std::setw(5) << egzaminas <<std::endl ;//egzas
+            }else{
+                myfile << std::setw(5) << skc(mt) <<std::endl ;//egzas
+            }
         }myfile.close();
     }else std::cout<<"Cannot open file."<<std::endl;
 }
 
 
 
-
 void subjectOne(){//interface'as
-    std::cout<<"Do you want to generate and compare files automatically ? [y/n]"<<std::endl;
-    std::string trash="";std::cin>>trash;
-    if(trash.compare("y")==0){
+    auto startTime = std::chrono::steady_clock::now();
 
-        std::cout<<"Generuojami failai..."<<std::endl;
+    std::cout<<"Choose your action:"<<std::endl;
+    std::cout<<"0 to end the program."<<std::endl;//done
+    std::cout<<"1 to create a file."<<std::endl;
+    std::cout<<"2 to read a file with vector/list/deque."<<std::endl;
+    std::cout<<"3 to test vector/list/deque with 5 files."<<std::endl;//done
+    std::cout<<"4 to test vector/list/deque with 5 files differently(2 holders)."<<std::endl;
+    std::string kumis="";std::cin>>kumis;
+    if(kumis.compare("0")==0){
+        std::cout<<"The end."<<std::endl;
+        auto endTime = std::chrono::steady_clock::now();
+        std::cout<<"The program lasted:"<<std::chrono::duration <double> (endTime-startTime).count()<<"s."<<std::endl;
+    }
+
+
+    else if(kumis.compare("1")==0){
+        std::cout<<"Type in the chosen name for the file:"<<std::endl;//failo vardas
+        std::string name;std::cin>>name;
+
+        std::cout<<"How many entries do you want to create?"<<std::endl;//kiek irasu bus faile
+        std::string zmones;std::cin>>zmones;
+
+        std::cout<<"Do you want to generate marks randomly? [y/n]"<<std::endl;
+        std::string genMarks;std::cin>>genMarks;
+
+        if(genMarks.compare("y")==0){//generuos pazymius
+            std::cout<<"How many marks do you want to generate?"<<std::endl;//kiek pazymiu irasas tures
+            std::string ge;std::cin>>ge;
+            std::cout<<"Do you want to generate the exam mark too? [y/n]"<<std::endl;
+            std::string ge1;std::cin>>ge1;
+            if(ge1.compare("y")==0){//generuos ir egzamina
+                auto saveLaikas = std::chrono::steady_clock::now();
+                saveToFile(name+".txt",std::stoi(zmones),0,std::stoi(ge));
+                auto saveLaikas1 = std::chrono::steady_clock::now();
+                std::cout<<"Generated file:"<<name+".txt"<<" in "<<std::chrono::duration <double> (saveLaikas1-saveLaikas).count()<<"s."<<std::endl;
+                subjectOne();
+            }
+            if(ge1.compare("n")==0){//leis ivest egzamina
+                std::cout<<"Type in the exam mark:"<<std::endl;
+                std::string ge2;std::cin>>ge2;
+                auto saveLaikas = std::chrono::steady_clock::now();
+                saveToFile(name+".txt",std::stoi(zmones),std::stoi(ge2),std::stoi(ge));
+
+                auto saveLaikas1 = std::chrono::steady_clock::now();
+                std::cout<<"Generated file:"<<name+".txt"<<" in "<<std::chrono::duration <double> (saveLaikas1-saveLaikas).count()<<"s."<<std::endl;
+                subjectOne();
+            }else{std::cout<<"Typing in wrong here?Really?"<<std::endl;subjectOne();}
+        }
+        else if(genMarks.compare("n")==0){//leis pazymius vest vartotojui
+            std::cout<<"Do you want to generate the exam mark? [y/n]"<<std::endl;
+            std::string ge1;std::cin>>ge1;
+            if(ge1.compare("y")==0){//generuos egzamina
+                std::vector<vektoriui>L;
+                vektoriui v;
+                std::string vesk="";
+                for(int i=0;i<std::stoi(zmones);i++){
+                    std::cout<<"Type in the marks, type '/' to end."<<std::endl;
+                    while(vesk.compare("/")!=0){
+                        std::cin>>vesk;int temp;std::stringstream(vesk)>>temp;
+                        v.vektorius.push_back(temp);
+                    }L.push_back(v);
+                }
+                saveToFilePersonal(name+".txt",std::stoi(zmones),0,L);
+
+            }
+            if(ge1.compare("n")==0){//leis ivest egzamina
+                std::cout<<"Type in the exam mark:"<<std::endl;
+                std::string egzPaz;std::cin>>egzPaz;
+
+                std::vector<vektoriui>L;
+                vektoriui v;
+                std::string vesk="";
+                for(int i=0;i<std::stoi(zmones);i++){
+                    std::cout<<"Type in the marks, type '/' to end."<<std::endl;
+                    while(vesk.compare("/")!=0){
+                        std::cin>>vesk;int temp;std::stringstream(vesk)>>temp;
+                        v.vektorius.push_back(temp);
+                    }L.push_back(v);
+                }
+                saveToFilePersonal(name+".txt",std::stoi(zmones),std::stoi(egzPaz),L);
+
+
+            }else{std::cout<<"Typing in wrong here?Really?"<<std::endl;subjectOne();}
+
+
+        }
+        else{std::cout<<"Goddamit type correctly."<<std::endl;
+            subjectOne();
+        }
+    }
+
+
+
+    else if(kumis.compare("2")==0){
+
+    }
+    else if(kumis.compare("3")==0){
+        std::cout<<"Generating files..."<<std::endl;
         //generuos 5 failus su [10^i] irasu
         for(int i=1;i<=5;i++){// ties 5 budavo crash bad_alloc kai reiksmes buvo dedamos i vienetine struktura
             auto Plaikas = std::chrono::steady_clock::now();
-            saveToFile("kursiokai"+std::to_string(i)+".txt", pow(10,i));//galima prideti laika per kiek sugeneruota
+            saveToFile("kursiokai"+std::to_string(i)+".txt", pow(10,i),0,0);//galima prideti laika per kiek sugeneruota
             auto laikas = std::chrono::steady_clock::now();
-            std::cout<<"Failas kursiokai"+std::to_string(i)+".txt sugeneruotas per "<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;
+            std::cout<<"File kursiokai"+std::to_string(i)+".txt generated in "<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;
         }
         
         std::cout<<"Vector"<<std::endl;
@@ -143,12 +270,14 @@ void subjectOne(){//interface'as
         std::cout<<"Deque"<<std::endl;
         testavimas<std::deque<node>>();
 
-        std::terminate();
+        subjectOne();
     }
-    else if(trash.compare("n")==0){//leis irasyti i failus paciam
-        //kodas
-    }else{std::cout<<"Wrong input, exiting."<<std::endl;
-        std::terminate();
+    else if(kumis.compare("4")==0){
+
+    }
+    else{
+        std::cout<<"Kuzma raminkis."<<std::endl;
+        subjectOne();
     }
     
 }
