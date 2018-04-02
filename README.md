@@ -13,6 +13,8 @@ Funkcija | Trumpas aprašymas
 3 | to test vector/list/deque with 5 files.
 4 | to test vector/list/deque with 5 files differently(2 holders).
 
+**Arba:** [Meniu nuotrauka](https://gyazo.com/9c2eff8231fa73817b48c713a1f55d1c)
+
 ##0
 _Pasirinkus **0** programa kaip ir tikitės baigsis, parodys kiek laiko programa buvo aktyvi._
 
