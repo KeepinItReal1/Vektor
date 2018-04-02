@@ -136,8 +136,8 @@ template<typename T>void testavimasDu(int skc=5){//skaito ir rusiuoja su deque,v
         //turiu sumest visus nuo pagr.end() iki it-1 i lievi, istrint pagr
 
         auto sortEnd = pagr.end();
-        std::advance(sortEnd, -1);
-        std::advance(it, -1);
+        sortEnd--;
+        it--;
         while (sortEnd != it){
             lievi.push_back(*sortEnd);
             pagr.pop_back();
@@ -237,9 +237,6 @@ void subjectOne(){//interface'as
                 subjectOne();
             }else{std::cout<<"Typing in wrong here?Really?"<<std::endl;subjectOne();}
         }
-
-
-
 
 
         else if(genMarks.compare("n")==0){//leis pazymius vest vartotojui
