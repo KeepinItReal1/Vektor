@@ -30,7 +30,7 @@ struct node {
 	double median;
 };
 
-struct vektoriui{std::vector<int>vektorius;};
+struct vektoriui {std::vector<int>vektorius;};
 
 
 double mediana(std::vector<int>&V){//grazina vektoriaus mediana
@@ -104,7 +104,7 @@ template<typename T>void testavimas(int skc=5){//skaito ir rusiuoja su deque,vec
 }
 
 
-void saveToFile(std::string failas,unsigned int ivedimas, int egzaminas,int NdIvedimas){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
+void saveToFile(std::string failas,unsigned int ivedimas, vektoriui L,int NdIvedimas){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
     std::ofstream myfile (failas);
     if(myfile.is_open()){
         static std::mt19937 mt(std::chrono::high_resolution_clock::now().time_since_epoch().count());
@@ -120,8 +120,9 @@ void saveToFile(std::string failas,unsigned int ivedimas, int egzaminas,int NdIv
                     myfile<< std::setw(5) << skc(mt);//Nd pazymiai
                 }
 
-            if(egzaminas!=0){//jei ivestas norimas pazymys
-                myfile << std::setw(5) << egzaminas <<std::endl ;//egzas
+            if(L.vektorius.size()!=0){//jei ivestas norimas pazymys
+                myfile << std::setw(5) << L.vektorius.back() <<std::endl ;//egzas
+                L.vektorius.pop_back();
             }else{
                 myfile << std::setw(5) << skc(mt) <<std::endl ;//egzas
             }
@@ -130,7 +131,7 @@ void saveToFile(std::string failas,unsigned int ivedimas, int egzaminas,int NdIv
 }
 
 
-void saveToFilePersonal(std::string failas,unsigned int ivedimas, int egzaminas,std::vector<vektoriui>L){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
+void saveToFilePersonal(std::string failas,unsigned int ivedimas, vektoriui T,std::vector<vektoriui>L){// [ivedimas] reiksmiu, T egzamino paz,L nd paz
     std::ofstream myfile (failas);
     if(myfile.is_open()){
         static std::mt19937 mt(std::chrono::high_resolution_clock::now().time_since_epoch().count());
@@ -139,13 +140,14 @@ void saveToFilePersonal(std::string failas,unsigned int ivedimas, int egzaminas,
         for(unsigned int i=0;i<ivedimas;i++){//reiksmiu generavimas          
             myfile << std::setw(15) << "pavarde"+std::to_string(i)<< std::setw(15) << "vardas"+std::to_string(i);
 
-                while(!L[i].vektorius.empty()){
-                    myfile<< std::setw(5) << L[i].vektorius.back();//Nd pazymiai
-                    L[i].vektorius.pop_back();
-                }
+            while(!L[i].vektorius.empty()){
+                 myfile<< std::setw(5) << L[i].vektorius.back();//Nd pazymiai
+                L[i].vektorius.pop_back();
+            }
 
-            if(egzaminas!=0){//jei ivestas norimas pazymys
-                myfile << std::setw(5) << egzaminas <<std::endl ;//egzas
+            if(T.vektorius.size()!=0){//jei ivestas norimas pazymys
+                myfile << std::setw(5) << T.vektorius.back() <<std::endl ;//egzas
+                T.vektorius.pop_back();
             }else{
                 myfile << std::setw(5) << skc(mt) <<std::endl ;//egzas
             }
@@ -189,57 +191,96 @@ void subjectOne(){//interface'as
             std::string ge1;std::cin>>ge1;
             if(ge1.compare("y")==0){//generuos ir egzamina
                 auto saveLaikas = std::chrono::steady_clock::now();
-                saveToFile(name+".txt",std::stoi(zmones),0,std::stoi(ge));
+                vektoriui tuscias;
+                saveToFile(name+".txt",std::stoi(zmones),tuscias,std::stoi(ge));
                 auto saveLaikas1 = std::chrono::steady_clock::now();
                 std::cout<<"Generated file:"<<name+".txt"<<" in "<<std::chrono::duration <double> (saveLaikas1-saveLaikas).count()<<"s."<<std::endl;
                 subjectOne();
             }
             if(ge1.compare("n")==0){//leis ivest egzamina
-                std::cout<<"Type in the exam mark:"<<std::endl;
-                std::string ge2;std::cin>>ge2;
+                vektoriui v;//egzamino pazymiai v.vektorius
+                while(v.vektorius.size()!=std::stoi(zmones)){
+                    std::cout<<"Type in the exam mark:"<<std::endl;
+                    std::string vesk;std::cin>>vesk;
+                    int temp;std::stringstream(vesk)>>temp;
+
+                    if((temp<=10) && (temp>0)){v.vektorius.push_back(temp);}
+                }
                 auto saveLaikas = std::chrono::steady_clock::now();
-                saveToFile(name+".txt",std::stoi(zmones),std::stoi(ge2),std::stoi(ge));
+                saveToFile(name+".txt",std::stoi(zmones),v,std::stoi(ge));
 
                 auto saveLaikas1 = std::chrono::steady_clock::now();
                 std::cout<<"Generated file:"<<name+".txt"<<" in "<<std::chrono::duration <double> (saveLaikas1-saveLaikas).count()<<"s."<<std::endl;
                 subjectOne();
             }else{std::cout<<"Typing in wrong here?Really?"<<std::endl;subjectOne();}
         }
+
+
+
+
+
         else if(genMarks.compare("n")==0){//leis pazymius vest vartotojui
             std::cout<<"Do you want to generate the exam mark? [y/n]"<<std::endl;
             std::string ge1;std::cin>>ge1;
+
             if(ge1.compare("y")==0){//generuos egzamina
-                std::vector<vektoriui>L;
+                std::vector <vektoriui> L;
                 vektoriui v;
-                std::string vesk="";
                 for(int i=0;i<std::stoi(zmones);i++){
-                    std::cout<<"Type in the marks, type '/' to end."<<std::endl;
+                    std::string vesk="";
+                    std::cout<<"Type in the marks, type '/' to end. Wrong symbols will be ignored."<<std::endl;
                     while(vesk.compare("/")!=0){
-                        std::cin>>vesk;int temp;std::stringstream(vesk)>>temp;
-                        v.vektorius.push_back(temp);
+                        std::cin>>vesk;int temp;
+                        std::stringstream(vesk)>>temp;
+                        if((temp<=10) && (temp>0)){
+                            v.vektorius.push_back(std::stoi(vesk));
+                        }
                     }L.push_back(v);
                 }
-                saveToFilePersonal(name+".txt",std::stoi(zmones),0,L);
+                vektoriui tuscias;
+                auto saveLaikas = std::chrono::steady_clock::now();
+
+                saveToFilePersonal(name+".txt",std::stoi(zmones),tuscias,L);
+
+                auto saveLaikas1 = std::chrono::steady_clock::now();
+                std::cout<<"Generated file:"<<name+".txt"<<" in "<<std::chrono::duration <double> (saveLaikas1-saveLaikas).count()<<"s."<<std::endl;
+                subjectOne();
+            }
+
+            if(ge1.compare("n")==0){//leis ivest egzamina
+
+
+                vektoriui v;
+                while(v.vektorius.size()!=std::stoi(zmones)){
+                    std::cout<<"Type in the exam mark:"<<std::endl;
+                    std::string vesk;std::cin>>vesk;
+                    int temp;std::stringstream(vesk)>>temp;
+
+                    if((temp<=10) && (temp>0)){v.vektorius.push_back(temp);}
+                }
+
+                std::deque<vektoriui>L;
+                vektoriui m;
+                for(int i=0;i<std::stoi(zmones);i++){
+                    std::string vesk="";
+                    std::cout<<"Type in the marks, type '/' to end. Wrong symbols will be ignored."<<std::endl;
+                    while(vesk.compare("/")!=0){
+                        std::cin>>vesk;int temp;
+                        std::stringstream(vesk)>>temp;
+                        if((temp<=10) && (temp>0)){
+                            m.vektorius.push_back(std::stoi(vesk));
+                        }
+                    }L.push_front(m);
+                }
+
+
+                //saveToFilePersonal(name+".txt",std::stoi(zmones),std::stoi(egzPaz),L);
+                subjectOne();
 
             }
-            if(ge1.compare("n")==0){//leis ivest egzamina
-                std::cout<<"Type in the exam mark:"<<std::endl;
-                std::string egzPaz;std::cin>>egzPaz;
-
-                std::vector<vektoriui>L;
-                vektoriui v;
-                std::string vesk="";
-                for(int i=0;i<std::stoi(zmones);i++){
-                    std::cout<<"Type in the marks, type '/' to end."<<std::endl;
-                    while(vesk.compare("/")!=0){
-                        std::cin>>vesk;int temp;std::stringstream(vesk)>>temp;
-                        v.vektorius.push_back(temp);
-                    }L.push_back(v);
-                }
-                saveToFilePersonal(name+".txt",std::stoi(zmones),std::stoi(egzPaz),L);
-
-
-            }else{std::cout<<"Typing in wrong here?Really?"<<std::endl;subjectOne();}
+            else{
+                std::cout<<"Wrong input returning to menu."<<std::endl;subjectOne();
+            }
 
 
         }
@@ -258,7 +299,8 @@ void subjectOne(){//interface'as
         //generuos 5 failus su [10^i] irasu
         for(int i=1;i<=5;i++){// ties 5 budavo crash bad_alloc kai reiksmes buvo dedamos i vienetine struktura
             auto Plaikas = std::chrono::steady_clock::now();
-            saveToFile("kursiokai"+std::to_string(i)+".txt", pow(10,i),0,0);//galima prideti laika per kiek sugeneruota
+            vektoriui tuscias;
+            saveToFile("kursiokai"+std::to_string(i)+".txt", pow(10,i),tuscias,0);//galima prideti laika per kiek sugeneruota
             auto laikas = std::chrono::steady_clock::now();
             std::cout<<"File kursiokai"+std::to_string(i)+".txt generated in "<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;
         }
