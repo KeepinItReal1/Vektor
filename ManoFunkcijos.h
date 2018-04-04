@@ -6,7 +6,6 @@
 #include <iostream>//ostream
 #include <string>//std::string
 #include <sstream>//std::stringstream
-#include <stdlib.h>//rand
 #include <random>//std::mt19937, std::uniform_int_distribution
 #include <algorithm>//std::sort, std::partition
 #include <iomanip>//std::setprecision, std::setw
@@ -18,7 +17,6 @@
 #include <deque>//std::deque
 #include <list>//std::list
 #include <math.h>//pow
-#include <sstream>//stringstream
 #include <iterator>
 
 
@@ -132,19 +130,28 @@ template<typename T>void testavimasDu(int skc=5){//skaito ir rusiuoja su deque,v
         readFromFile("kursiokai"+std::to_string(j)+".txt",pagr);//nuskaito, issaugo i pagr
 
         //padalins i (pagr.begin()<->it) ir (it<->pagr.end()) intervalus, pastarajame bus visi netenkinantys salygos
-        auto it = std::partition(pagr.begin(), pagr.end(),[](node &V){return (V.Averag*0.4+0.6*V.egzas)>=5.0;});//veliau tiksliai issiaiskint []
-        //turiu sumest visus nuo pagr.end() iki it-1 i lievi, istrint pagr
-
-        auto sortEnd = pagr.end();
-        sortEnd--;
-        it--;
-        while (sortEnd != it){
-            lievi.push_back(*sortEnd);
-            pagr.pop_back();
-            std::advance(sortEnd,-1);
-        }
+        // auto it = std::stable_partition(pagr.begin(), pagr.end(),[](node &V){return (V.Averag*0.4+0.6*V.egzas)>=5.0;});//veliau tiksliai issiaiskint []
+        // //turiu sumest visus nuo pagr.end() iki it-1 i lievi, istrint pagr
+        
+        //sitas veikia 10-30% greiciau, tribute ©BlackDude22
+        // auto sortEnd = pagr.end();
+        // sortEnd--;
+        // it--;
+        // while (sortEnd != it){
+        //     lievi.push_back(*sortEnd);
+        //     pagr.pop_back();
+        //     std::advance(sortEnd,-1);
+        // }
         //remove_if(pagr.begin(),pagr.end(),lyginimas);
         //std::partition_copy(pagr.begin(),pagr.end(),geri.begin(),lievi.begin(),lyginimas);//crashina be e.what()
+
+
+        for(auto k : pagr){
+            if(static_cast<float>(k.Averag*0.4+0.6*k.egzas)<5.0){
+                lievi.push_back(k);
+                remove_if(pagr.begin(),pagr.end(),[](node &V){return (V.Averag*0.4+0.6*V.egzas)<5.0;});
+            }
+        }
 
         auto end = std::chrono::steady_clock::now();
         std::cout<<std::setw(plotis)<<std::left<<"kursiokai"+std::to_string(j)+".txt"<<std::internal<<"| "
