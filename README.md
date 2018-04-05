@@ -5,7 +5,7 @@
 - Truksta releasu
 - Truksta cmake 
 
-- Pataisyta ir Jūs skaėt "labai gerai" :D
+- Pataisyta ir Jūs sakėt "labai gerai" :D
 
 ## Privalumai
 
