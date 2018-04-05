@@ -5,6 +5,8 @@
 - Truksta releasu
 - Truksta cmake 
 
+- Pataisyta ir Jūs skaėt "labai gerai" :D
+
 ## Privalumai
 
 - Veikia greitai
