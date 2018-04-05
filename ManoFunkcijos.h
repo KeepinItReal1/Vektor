@@ -142,8 +142,7 @@ template<typename T>void testavimasDu(int skc=5){//skaito ir rusiuoja su deque,v
         //     pagr.pop_back();
         //     std::advance(sortEnd,-1);
         // }
-        //remove_if(pagr.begin(),pagr.end(),lyginimas);
-        //std::partition_copy(pagr.begin(),pagr.end(),geri.begin(),lievi.begin(),lyginimas);//crashina be e.what()
+]       //std::partition_copy(pagr.begin(),pagr.end(),geri.begin(),lievi.begin(),lyginimas);//crashina be e.what()
 
 
         for(auto k : pagr){
