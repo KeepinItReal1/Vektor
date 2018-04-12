@@ -1,10 +1,12 @@
 #include "ManoFunkcijos.h"
+#include "vektor.h"
+#include <iostream>
+
 
 
 int main(){
-	subjectOne();	
-
-return 0;
+	std::cout<<"Hello world!"<<std::endl;
+	vektor<int> v;
 }
 
 
