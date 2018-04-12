@@ -2,44 +2,33 @@
 #define VEKTOR_H
 
 #include <windows.h>
+#include <iostream>
 
 
 template <typename T>
 class vektor{
 
     public:
-    	void push_back(T elem);
-    	// void begin();
-    	// void end();
-    	unsigned int size();
-    	unsigned int capacity();
-    	unsigned int max_size();
+    	void push_back(T elem);//+
+    	void pop_back();
+    	int* begin(){if(total_size!=0)return &A[0];else std::cerr<<"Empty vektor!"<<std::endl;};//+
+    	int* end(){if(total_size!=0)return &A[total_size-1]; else std::cerr<<"Empty vektor!"<<std::endl;};//+
+    	T back();
+    	//gett'ers
+    	unsigned int size() const{return total_size;};//+
+    	unsigned int capacity() const{return total_capacity;};//+
+    	unsigned int max_size() const{};//+
     private:
     	T createNewArray(T *A,unsigned int skc, unsigned int added=10);
     	unsigned int total_size=0;//esamas dydis
-    	unsigned int total_capacity=0;//max dydis dabar
+    	unsigned int total_capacity=0;//max galimas dydis dabar
     	T *A=new T[total_size]; 
-
-
-
-
-
 };
 
-template <typename T>
-unsigned int vektor<T>::size(){
-	return total_size;
-}
-
-template <typename T>
-unsigned int vektor<T>::capacity(){
-	return total_capacity;
-}
-
-template <typename T>
-unsigned int vektor<T>::max_size(){
-
-}
+// template <typename T>
+// unsigned int vektor<T>::max_size() const{
+// 	//return 
+// }
 
 template <typename T>//sudaro nauja array kurio max size padidina per added
 T vektor<T>::createNewArray(T *A,unsigned int skc,unsigned int added ){//commitas c3ef694  on Feb 21
@@ -70,6 +59,24 @@ void vektor<T>::push_back(T elem){//exception del pasiekto max_size
 	else{
 		A[total_size]=elem;
 	}
+}
+
+template <typename T>
+void vektor<T>::pop_back(){
+	if(total_size!=0){
+		total_size--;//delete butu visam vektoriui
+	}
+	else {delete[] A;
+	std::cerr<<"Empty vektor!"<<std::endl;
+	}
+}
+
+template <typename T>
+T vektor<T>::back(){
+	if(total_size!=0){
+		return A[total_size-1];
+	}
+	else std::cerr<<"Empty vektor!"<<std::endl;
 }
 
 
