@@ -129,4 +129,3 @@ int main(){
 	// return 0;
 }
 
-//klasiu vectorius/listas/deque turi member narius

@@ -30,13 +30,6 @@ class node{
 		//sett'ers
 		template<typename T> friend void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved);//prideda struktura prie duomenu laikiklio
 
-		inline void setLastName (std::string A)     {pavarde=A;};
-		inline void setName     (std::string A)     {vardas=A;};
-		inline void setVector   (std::vector<int>A) {int_vector=A;};
-		inline void setEgzas    (unsigned int A)    {egzas=A;};
-		inline void setAverag   (std::vector<int>A) {Averag=vidurkis(A);};
-		inline void setMedian   (std::vector<int>A) {median=mediana(A);};
-
 		//gett'ers
 		inline std::string getLastName() const{return pavarde;};
 		inline std::string getName() const{return vardas;};
@@ -58,13 +51,13 @@ class node{
 template<typename T> 
 void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved){//prideda struktura prie duomenu laikiklio
     node vnt;
-    vnt.setLastName(Vpavarde);
-    vnt.setName(Vvardas);
-    vnt.setEgzas(Vegzas);
-    vnt.setVector(Ved);
+    vnt.pavarde = Vpavarde;
+    vnt.vardas = Vvardas;
+    vnt.egzas = Vegzas;
+    vnt.int_vector = Ved;
     try{
-        vnt.setAverag(Ved);
-        vnt.setMedian(Ved);
+        vnt.Averag = vidurkis(Ved);
+        vnt.median = mediana(Ved);
     }catch (std::domain_error e){std::cout<<e.what();}
     vedimas.push_back(vnt);
 }
@@ -149,7 +142,7 @@ void antraStrategija(int skc){//skaito ir rusiuoja su deque,vector ir list
 
 template<typename T> 
 void readFromFile(std::string failas, T &konteineris){//skaito duomenis is failo, juos issaugo
-std::ifstream inf;
+	std::ifstream inf;
     inf.open(failas);
     std::string line;
 
