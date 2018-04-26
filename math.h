@@ -39,6 +39,8 @@ bool is_file_exist(std::string fileName)
     return infile.good();
 }
 
+
+
 void saveToFile(std::string failas,unsigned int ivedimas,int NdIvedimas){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
     std::ofstream myfile (failas);
     if(myfile.is_open()){
@@ -57,5 +59,7 @@ void saveToFile(std::string failas,unsigned int ivedimas,int NdIvedimas){// suku
         }myfile.close();
     }else std::cout<<"Cannot open file."<<std::endl;
 }
+
+
 
 # endif // MATH_H
