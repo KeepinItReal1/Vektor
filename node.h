@@ -15,8 +15,6 @@
 #include <vector>//std::vector
 #include <deque>//std::deque
 #include <list>//std::list
-#include <math.h>//pow
-#include <iterator>
 
 
 class node{
@@ -29,7 +27,9 @@ class node{
 		template<typename T> friend void readFromFile(std::string failas, T &konteineris);//skaito duomenis is failo, juos issaugo
 		//sett'ers
 		template<typename T> friend void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved);//prideda struktura prie duomenu laikiklio
-
+        //operatoriai lygina paduotu nariu vidurkius, grazina 1 jei true
+        template<typename T> friend bool operator>(T&V,T&V2);
+        template<typename T> friend bool operator<(T&V,T&V2);
 		//gett'ers
 		inline std::string getLastName() const{return pavarde;};
 		inline std::string getName() const{return vardas;};
@@ -46,6 +46,16 @@ class node{
 		double median;
 
 };
+
+        template<typename T> bool operator>(T&V,T&V2){
+            if(V.Averag>V2.Averag){return 1;}
+            else return 0;
+        }
+        template<typename T> bool operator<(T&V,T&V2){
+            if(V.Averag<V2.Averag){return 1;}
+            else return 0;
+        }
+
 
 
 template<typename T> 
@@ -137,6 +147,7 @@ void antraStrategija(int skc){//skaito ir rusiuoja su deque,vector ir list
         <<std::setw(plotis)<<std::right<<std::chrono::duration <double> (end-start).count()<<"s"<<std::endl;
     }
 }
+
 
 
 
