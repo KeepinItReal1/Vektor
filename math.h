@@ -15,6 +15,13 @@
 
 
 
+/**
+ * @brief      skaiciuoja mediana
+ *
+ * @param      V     paduodamo int vector adresas
+ *
+ * @return     grazina medianos reiksme
+ */
 double mediana(std::vector<int>&V){//grazina vektoriaus mediana
     std::sort(V.begin(),V.end());
     auto dydis= V.size();
@@ -24,6 +31,13 @@ double mediana(std::vector<int>&V){//grazina vektoriaus mediana
     return dydis % 2 == 1 ? (V[dydis/2]) : (V[(dydis/2)-1]+V[dydis/2])/2;//po ? pirmas tiesa
 }
 
+/**
+ * @brief      skaiciuoja vidurki
+ *
+ * @param      V     paduodamo int vector adresas
+ *
+ * @return     grazina vidurkio reiksme
+ */
 double vidurkis(std::vector<int>&V){//grazina vektoriaus vidurki
     auto dydis= V.size();
     if(dydis==0){
@@ -33,6 +47,13 @@ double vidurkis(std::vector<int>&V){//grazina vektoriaus vidurki
     return static_cast<float>(VidSum)/static_cast<float>(dydis);
 }
 
+/**
+ * @brief      Determines if file exist.
+ *
+ * @param[in]  fileName  The file name
+ *
+ * @return     True if file exist, False otherwise.(doxy pats parase, nice)
+ */
 bool is_file_exist(std::string fileName)
 {
     std::ifstream infile(fileName);
@@ -41,6 +62,13 @@ bool is_file_exist(std::string fileName)
 
 
 
+/**
+ * @brief      Saves to file.
+ *
+ * @param[in]  failas      file name
+ * @param[in]  ivedimas    sukuriamu irasu skaicius
+ * @param[in]  NdIvedimas  nd skaicius tenkantis irasui
+ */
 void saveToFile(std::string failas,unsigned int ivedimas,int NdIvedimas){// sukuria [ ivedimas] random reiksmiu ir iraso jas i faila
     std::ofstream myfile (failas);
     if(myfile.is_open()){

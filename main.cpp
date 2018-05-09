@@ -2,7 +2,12 @@
 #include "math.h"
 #include "vektor.h"
 #include <iostream>
+#include <random>//std::mt19937, std::uniform_int_distribution
 
+
+/**
+ * @brief      meniu funkcija
+ */
 void meniu(){//interface'as
     auto startTime = std::chrono::steady_clock::now();
 

@@ -6,7 +6,6 @@
 #include <iostream>//ostream
 #include <string>//std::string
 #include <sstream>//std::stringstream
-#include <random>//std::mt19937, std::uniform_int_distribution
 #include <algorithm>//std::sort, std::partition
 #include <iomanip>//std::setprecision, std::setw
 #include <fstream>//stream
@@ -58,6 +57,17 @@ class node{
 
 
 
+/**
+ * @brief      Prideda 1 studento irasa
+ *
+ * @param      vedimas   konteineris, i kuri rasys nauja irasa
+ * @param[in]  Vpavarde  iraso pavarde
+ * @param[in]  Vvardas   iraso vardas
+ * @param[in]  Vegzas    iraso egzamino ivertinimas
+ * @param[in]  Ved       int vector su ND ivertinimais
+ *
+ * @tparam     T         { template'as }
+ */
 template<typename T> 
 void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved){//prideda struktura prie duomenu laikiklio
     node vnt;
@@ -72,6 +82,14 @@ void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std:
     vedimas.push_back(vnt);
 }
 
+
+/**
+ * @brief      reads from file and prints it on screen
+ *
+ * @param[in]  fileName  The file name
+ *
+ * @tparam     T         { template }
+ */
 template<typename T>
 void readNprint(std::string fileName){//skaito ir spausdina
     T pagr;
@@ -79,6 +97,15 @@ void readNprint(std::string fileName){//skaito ir spausdina
     printOnScreen(pagr);
 }
 
+
+
+/**
+ * @brief      spausdina ant ekrano
+ *
+ * @param      V     spausdinamo konteineriis
+ *
+ * @tparam     T     template'as
+ */
 template<typename T>
 void printOnScreen(T&V){//spausdina varda, pavarde, vidurki, mediana, egzamino pazymi
 std::cout<<std::setw(15) << "pavarde" << std::setw(15) << "vardas";
@@ -95,6 +122,14 @@ std::cout<<std::setw(5)<<"vid"//egzamino paz pagal vidurki
     }
 }
 
+
+/**
+ * @brief      pirma testavimo strategija
+ *
+ * @param[in]  skc   nuskaitomu failu skaicius
+ *
+ * @tparam     T     { template'as }
+ */
 template<typename T>
 void testavimas(int skc){//skaito ir rusiuoja su deque,vector ir list
     const int plotis=14;
@@ -124,6 +159,13 @@ void testavimas(int skc){//skaito ir rusiuoja su deque,vector ir list
 }
 
 
+/**
+ * @brief      antra rusiavimo strategija
+ *
+ * @param[in]  skc   failu skaicius
+ *
+ * @tparam     T     template'as
+ */
 template<typename T>
 void antraStrategija(int skc){//skaito ir rusiuoja su deque,vector ir list
     const int plotis=14;
@@ -151,6 +193,14 @@ void antraStrategija(int skc){//skaito ir rusiuoja su deque,vector ir list
 
 
 
+/**
+ * @brief      Reads a from file.
+ *
+ * @param[in]  failas       failo pavadinimas
+ * @param      konteineris  naudojamo konteinerio adresas
+ *
+ * @tparam     T            template'as
+ */
 template<typename T> 
 void readFromFile(std::string failas, T &konteineris){//skaito duomenis is failo, juos issaugo
 	std::ifstream inf;

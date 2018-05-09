@@ -72,6 +72,7 @@ void vektor<T>::push_back(T elem){//exception del pasiekto max_size
 	}
 }
 
+
 template <typename T>
 void vektor<T>::pop_back(){
 	if(total_size!=0){

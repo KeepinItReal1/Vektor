@@ -1,0 +1,188 @@
+\hypertarget{classnode}{}\section{node Class Reference}
+\label{classnode}\index{node@{node}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classnode_acc5355b178d76f1860b416320cacb856}\label{classnode_acc5355b178d76f1860b416320cacb856}} 
+std\+::string {\bfseries get\+Last\+Name} () const
+\item 
+\mbox{\Hypertarget{classnode_a57a3ca6657e042e2938c6ea4b473967e}\label{classnode_a57a3ca6657e042e2938c6ea4b473967e}} 
+std\+::string {\bfseries get\+Name} () const
+\item 
+\mbox{\Hypertarget{classnode_a2ad6eb33eae91037ed7d42ac7751b55a}\label{classnode_a2ad6eb33eae91037ed7d42ac7751b55a}} 
+std\+::vector$<$ int $>$ {\bfseries get\+Vector} () const
+\item 
+\mbox{\Hypertarget{classnode_a48daf0edde3ea9fe8d81115bb4497b16}\label{classnode_a48daf0edde3ea9fe8d81115bb4497b16}} 
+unsigned int {\bfseries get\+Egzas} () const
+\item 
+\mbox{\Hypertarget{classnode_ac750e13557624c27f02848d0c989723c}\label{classnode_ac750e13557624c27f02848d0c989723c}} 
+double {\bfseries get\+Averag} () const
+\item 
+\mbox{\Hypertarget{classnode_a83c3e1be7db8254f2f06d1f17d0a7904}\label{classnode_a83c3e1be7db8254f2f06d1f17d0a7904}} 
+double {\bfseries get\+Median} () const
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classnode_a1b7cc6b256e5658901d53cae3b0a2de0}{read\+Nprint}} (std\+::string file\+Name)
+\begin{DoxyCompactList}\small\item\em reads from file and prints it on screen \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classnode_a185a0fca8047d41d3644ddc86d1e1840}{print\+On\+Screen}} (T \&V)
+\begin{DoxyCompactList}\small\item\em spausdina ant ekrano \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classnode_aa50591c3dbb484a81afb0b7c912b7466}{testavimas}} (int skc)
+\begin{DoxyCompactList}\small\item\em pirma testavimo strategija \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classnode_a097205487c0c52bf33282a17ae3e08cb}{antra\+Strategija}} (int skc)
+\begin{DoxyCompactList}\small\item\em antra rusiavimo strategija \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classnode_a8226db4fb3563153b6fd59a1109e1e40}{read\+From\+File}} (std\+::string failas, T \&konteineris)
+\begin{DoxyCompactList}\small\item\em Reads a from file. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classnode_a7e23b4a662a606c67e6cbc8deae68dbd}{plius}} (T \&vedimas, std\+::string Vpavarde, std\+::string Vvardas, int Vegzas, std\+::vector$<$ int $>$ Ved)
+\begin{DoxyCompactList}\small\item\em Prideda 1 studento irasa. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classnode_a0457c926fdc3d3cbf0ee29df7c6e875f}\label{classnode_a0457c926fdc3d3cbf0ee29df7c6e875f}} 
+{\footnotesize template$<$typename T $>$ }\\bool {\bfseries operator$>$} (T \&V, T \&V2)
+\item 
+\mbox{\Hypertarget{classnode_a64ca1c8d045d2cb38575e5938ca8f67e}\label{classnode_a64ca1c8d045d2cb38575e5938ca8f67e}} 
+{\footnotesize template$<$typename T $>$ }\\bool {\bfseries operator$<$} (T \&V, T \&V2)
+\end{DoxyCompactItemize}
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classnode_a097205487c0c52bf33282a17ae3e08cb}\label{classnode_a097205487c0c52bf33282a17ae3e08cb}} 
+\index{node@{node}!antra\+Strategija@{antra\+Strategija}}
+\index{antra\+Strategija@{antra\+Strategija}!node@{node}}
+\subsubsection{\texorpdfstring{antra\+Strategija}{antraStrategija}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void antra\+Strategija (\begin{DoxyParamCaption}\item[{int}]{skc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+antra rusiavimo strategija 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em skc} & failu skaicius\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & template\textquotesingle{}as \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classnode_a7e23b4a662a606c67e6cbc8deae68dbd}\label{classnode_a7e23b4a662a606c67e6cbc8deae68dbd}} 
+\index{node@{node}!plius@{plius}}
+\index{plius@{plius}!node@{node}}
+\subsubsection{\texorpdfstring{plius}{plius}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void plius (\begin{DoxyParamCaption}\item[{T \&}]{vedimas,  }\item[{std\+::string}]{Vpavarde,  }\item[{std\+::string}]{Vvardas,  }\item[{int}]{Vegzas,  }\item[{std\+::vector$<$ int $>$}]{Ved }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Prideda 1 studento irasa. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+ & {\em vedimas} & konteineris, i kuri rasys nauja irasa \\
+\hline
+\mbox{\tt in}  & {\em Vpavarde} & iraso pavarde \\
+\hline
+\mbox{\tt in}  & {\em Vvardas} & iraso vardas \\
+\hline
+\mbox{\tt in}  & {\em Vegzas} & iraso egzamino ivertinimas \\
+\hline
+\mbox{\tt in}  & {\em Ved} & int vector su ND ivertinimais\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \{ template\textquotesingle{}as \} \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classnode_a185a0fca8047d41d3644ddc86d1e1840}\label{classnode_a185a0fca8047d41d3644ddc86d1e1840}} 
+\index{node@{node}!print\+On\+Screen@{print\+On\+Screen}}
+\index{print\+On\+Screen@{print\+On\+Screen}!node@{node}}
+\subsubsection{\texorpdfstring{print\+On\+Screen}{printOnScreen}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void print\+On\+Screen (\begin{DoxyParamCaption}\item[{T \&}]{V }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+spausdina ant ekrano 
+
+
+\begin{DoxyParams}{Parameters}
+{\em V} & spausdinamo konteineriis\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & template\textquotesingle{}as \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classnode_a8226db4fb3563153b6fd59a1109e1e40}\label{classnode_a8226db4fb3563153b6fd59a1109e1e40}} 
+\index{node@{node}!read\+From\+File@{read\+From\+File}}
+\index{read\+From\+File@{read\+From\+File}!node@{node}}
+\subsubsection{\texorpdfstring{read\+From\+File}{readFromFile}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void read\+From\+File (\begin{DoxyParamCaption}\item[{std\+::string}]{failas,  }\item[{T \&}]{konteineris }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Reads a from file. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em failas} & failo pavadinimas \\
+\hline
+ & {\em konteineris} & naudojamo konteinerio adresas\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & template\textquotesingle{}as \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classnode_a1b7cc6b256e5658901d53cae3b0a2de0}\label{classnode_a1b7cc6b256e5658901d53cae3b0a2de0}} 
+\index{node@{node}!read\+Nprint@{read\+Nprint}}
+\index{read\+Nprint@{read\+Nprint}!node@{node}}
+\subsubsection{\texorpdfstring{read\+Nprint}{readNprint}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void read\+Nprint (\begin{DoxyParamCaption}\item[{std\+::string}]{file\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+reads from file and prints it on screen 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em file\+Name} & The file name\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \{ template \} \\
+\hline
+\end{DoxyTemplParams}
+\mbox{\Hypertarget{classnode_aa50591c3dbb484a81afb0b7c912b7466}\label{classnode_aa50591c3dbb484a81afb0b7c912b7466}} 
+\index{node@{node}!testavimas@{testavimas}}
+\index{testavimas@{testavimas}!node@{node}}
+\subsubsection{\texorpdfstring{testavimas}{testavimas}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void testavimas (\begin{DoxyParamCaption}\item[{int}]{skc }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+pirma testavimo strategija 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt in}  & {\em skc} & nuskaitomu failu skaicius\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & \{ template\textquotesingle{}as \} \\
+\hline
+\end{DoxyTemplParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+node.\+h\end{DoxyCompactItemize}
