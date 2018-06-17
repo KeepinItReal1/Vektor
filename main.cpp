@@ -3,6 +3,8 @@
 #include "vektor.h"
 #include <iostream>
 #include <random>//std::mt19937, std::uniform_int_distribution
+#include <vector>
+#include <string>
 
 
 /**
@@ -118,11 +120,47 @@ void meniu(){//interface'as
     
 }
 
-
-int main(){
-    meniu();
-
+void printVector(vektor<int>& vec)
+{
+    for (int a : vec)
+    {
+        std::cout << a << " ";
+    }
 }
 
+int main(){
+    // meniu();
 
+    // vektor < int > B{5,2,1};
+    // std::vector<int>C{5,2,1};
+    // C.insert(C.begin(),6);
+    // B.insert(B.begin(),7);
+
+    // for (auto i:C){
+    //     std::cout<<i<<" ";
+    // }std::cout<<"\n"; 
+    //  for (auto i:B){
+    //     std::cout<<i<<" ";
+    // }
+
+    vektor<int> v1{1, 2, 3,5};
+    vektor<int> v2{7, 8, 9};
+ 
+    std::cout << "v1: ";
+    printVector(v1);
+ 
+    std::cout << "\nv2: ";
+    printVector(v2);
+    v1.emplace(v1.begin(),7);
+ 
+    std::cout << "\nv1: ";
+    printVector(v1);
+ 
+    std::cout << "\nv2: ";
+    printVector(v2);
+
+    
+
+    return 0;
+}
 
