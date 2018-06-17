@@ -1,18 +1,3 @@
-# Vertinimas
-
-## Pastabos
-
-- Truksta releasu
-- Truksta cmake 
-
-- Pataisyta ir Jūs sakėt "labai gerai" :D
-
-## Privalumai
-
-- Veikia greitai
- Templeitai i tema panaudoti
-
-
 # ObjektinisProgramavimas
 
 # Naudojimosi instrukcija
