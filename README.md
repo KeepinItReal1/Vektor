@@ -13,7 +13,7 @@ O2                   | 2.74189s      | 1.83942s    | -32,91     |
 O3                   | 2.74132s      | 1.85509s    | -32,33%    |
 O4                   | 2.74304s      | 1.8402s     | -32,91     |
 
-
+Naudojant reserve: 1,53962s vs 1,06988s
 
 ## Kas buvo sunkiausia:
 ```cpp
