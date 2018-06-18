@@ -1,6 +1,7 @@
 #include "node.h"
 #include "math.h"
 #include "vektor.h"
+#include "timer.h"
 #include <iostream>
 #include <random>//std::mt19937, std::uniform_int_distribution
 #include <vector>
@@ -83,7 +84,7 @@ void meniu(){//interface'as
             std::cout<<"File kursiokai"+std::to_string(i)+".txt generated in "<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;
         }
         
-        std::cout<<"Vector"<<std::endl;
+        std::cout<<"vector"<<std::endl;
         testavimas<std::vector<node>>(5);
         std::cout<<"List"<<std::endl;
         testavimas<std::list<node>>(5);
@@ -103,7 +104,7 @@ void meniu(){//interface'as
             std::cout<<"File kursiokai"+std::to_string(i)+".txt generated in "<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;
         }
         
-        std::cout<<"Vector"<<std::endl;
+        std::cout<<"vector"<<std::endl;
         antraStrategija<std::vector<node>>(5);
         std::cout<<"List"<<std::endl;
         antraStrategija<std::list<node>>(5);
@@ -120,47 +121,20 @@ void meniu(){//interface'as
     
 }
 
-void printVector(vektor<int>& vec)
-{
-    for (int a : vec)
-    {
-        std::cout << a << " ";
-    }
-}
-
 int main(){
-    // meniu();
 
-    // vektor < int > B{5,2,1};
-    // std::vector<int>C{5,2,1};
-    // C.insert(C.begin(),6);
-    // B.insert(B.begin(),7);
 
-    // for (auto i:C){
-    //     std::cout<<i<<" ";
-    // }std::cout<<"\n"; 
-    //  for (auto i:B){
-    //     std::cout<<i<<" ";
-    // }
-
-    vektor<int> v1{1, 2, 3,5};
-    vektor<int> v2{7, 8, 9};
- 
-    std::cout << "v1: ";
-    printVector(v1);
- 
-    std::cout << "\nv2: ";
-    printVector(v2);
-    v1.emplace(v1.begin(),7);
- 
-    std::cout << "\nv1: ";
-    printVector(v1);
- 
-    std::cout << "\nv2: ";
-    printVector(v2);
-
-    
-
+auto Plaikas = std::chrono::steady_clock::now();
+    //for(int b=0;b<100;b++){
+    //std::vector<int>B;
+    std::vector<int>D;
+    D.reserve(100000000);
+        for(int i=1;i<=100000000;i++){//std::pow(10,8) 
+            D.push_back(i);
+        }
+    //}
+    auto laikas = std::chrono::steady_clock::now();
+    std::cout<<"vector:"<<std::chrono::duration <double> (laikas-Plaikas).count()<<"s"<<std::endl;    
     return 0;
 }
 

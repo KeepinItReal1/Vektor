@@ -39,7 +39,7 @@ template <class T, class Alloc = std::allocator<T>> class vektor{
     		end_(nullptr),
     		end_of_range(nullptr)
 			{
-				std::cout<<"Vektor default-empty c-tor."<<std::endl;
+				// std::cout<<"Vektor default-empty c-tor."<<std::endl;
 			};
 
         //fill
@@ -455,84 +455,117 @@ template <class T, class Alloc = std::allocator<T>> class vektor{
         }
 
         iterator insert( const_iterator pos, const value_type& value ){//klaida
-            if(size_==capacity_){
-                if(capacity_!=0){
-                    reserve(capacity_*2);  
-                }
-                else reserve(capacity_+1);
+            const difference_type temp = pos-cbegin();//atstumas nuo pradzios cia neveikia
+            if(end_==end_of_range ){
+                createNewArray(std::max(1,static_cast<int>(capacity_)));//capacity_ size_t neina lygint su int...      
             }
-            const difference_type temp = pos-cbegin();//atstumas nuo pradzios
-            //turiu insertint begin_+temp value, ten buvusia reiksme su visom pastumt i deisne
-
             size_t m=0;
-            for(auto k=end();k>=begin()+temp;k--){//
-                allocator_.construct(begin_+size_-m,*(k-1));
+            for(auto k=end();k>begin()+temp;k--){//
+                allocator_.construct(end_-m,*(end_-1-m));
                 m++;
             }
-            allocator_.destroy(begin_+temp);    
-            allocator_.construct(begin_ + temp, value);//cia neveikia
-            size_++;end_++;
-            return begin()+temp;//nes return pos neveik
+            allocator_.construct(begin_ + temp, value);
+            size_++;
+            end_=A+size_;
+            return begin()+temp;
         }
 
-        // iterator insert( const_iterator pos, T&& value ){
-        //     if(size_==capacity_){
-        //         if(capacity_!=0){
-        //             reserve(capacity_*2);  
-        //         }
-        //         else reserve(capacity_+1);
-        //     }
+        iterator insert( const_iterator pos, T&& value ){
+            const difference_type temp = pos-cbegin();//atstumas nuo pradzios cia neveikia
+            if(end_==end_of_range ){
+                createNewArray(std::max(1,static_cast<int>(capacity_)));//capacity_ size_t neina lygint su int...      
+            }
+            size_t m=0;
+            for(auto k=end();k>begin()+temp;k--){//
+                allocator_.construct(end_-m,*(end_-1-m));
+                m++;
+            }
+            allocator_.construct(begin_ + temp, value);
+            size_++;
+            end_=A+size_;
+            return begin()+temp;
+        }
+
+        iterator insert( const_iterator pos, size_type count, const T& value ){
+            const difference_type temp = pos-cbegin();//atstumas nuo pradzios cia neveikia
+            if(size_+count>=capacity_){
+                createNewArray(std::max(static_cast<int>(size_+count),static_cast<int>(capacity_*2)));//capacity_ size_t neina lygint su int...      
+            }
+            size_+=count;
+            end_=A+size_;
+            size_t m=0;
+            for(auto k=end();k>begin()+temp+count;k--){//
+                allocator_.construct(end_-m,*(end_-1-m));
+                m++;
+            }
+            size_t l=0;
+            for(auto z=begin()+temp;z<=begin()+temp+count;z++){
+                allocator_.construct(begin_ + temp + l, value);
+                l++;
+            }
+            return begin()+temp;
+        }
+
+        template < class InputIt, typename = std::_RequireInputIter<InputIt> > 
+        iterator insert( const_iterator pos, InputIt first, InputIt last ){
+            const difference_type temp = pos-cbegin();
+            if(size_+(last-first)>=capacity_){
+                createNewArray(std::max(static_cast<int>(size_+(last-first)),static_cast<int>(capacity_*2)));//capacity_ size_t neina lygint su int...      
+            }
+            size_+=last-first;
+            end_=A+size_;
+            size_t m=0;
+            for(auto k=end();k>begin()+temp+last-first;k--){//
+                allocator_.construct(end_-m,*(end_-1-m));
+                m++;
+            }
+            size_t l=0;
+            for(auto z=begin()+temp;z<=begin()+temp+last-first;z++){
+                allocator_.construct(begin_ + temp + l, first +l);
+                l++;
+            }
+            return begin()+temp;
+        }
+
+        iterator insert( const_iterator pos, std::initializer_list<T> ilist ){
+            const difference_type temp = pos-cbegin();
+            if(size_+ilist.size()>=capacity_){
+                createNewArray(std::max(static_cast<int>(size_+ilist.size()),static_cast<int>(capacity_*2)));//capacity_ size_t neina lygint su int...      
+            }
+            size_+=ilist.size();
+            end_=A+size_;
+            size_t m=0;
+            for(auto k=end();k>begin()+temp+ilist.size();k--){//
+                allocator_.construct(end_-m,*(end_-1-m));
+                m++;
+            }
+            size_t l=0;
+            for(auto i:ilist){
+                allocator_.construct(begin_ + temp + l, i);
+                l++;
+            }
+            return begin()+temp;
+
+        }
 
 
-
-
-        // }
-
-        // iterator insert( const_iterator pos, size_type count, const T& value ){
-        //     if(size_==capacity_){
-        //         if(capacity_!=0){
-        //             reserve(capacity_*2);  
-        //         }
-        //         else reserve(capacity_+1);
-        //     }
-
-        // }
-
-        // template< class InputIt >
-        // iterator insert( const_iterator pos, InputIt first, InputIt last ){
-        //     if(size_==capacity_){
-        //         if(capacity_!=0){
-        //             reserve(capacity_*2);  
-        //         }
-        //         else reserve(capacity_+1);
-        //     }
-
-        // }
-
-        // iterator insert( const_iterator pos, std::initializer_list<T> ilist ){
-        //     if(size_==capacity_){
-        //         if(capacity_!=0){
-        //             reserve(capacity_*2);  
-        //         }
-        //         else reserve(capacity_+1);
-        //     }
-
-        // }
-
-
-        void push_back(value_type elem){// reikia exception del pasiekto max_size
-            if(size_ == capacity_){
-                if(capacity_!=0){
-                    createNewArray(capacity_ * 2);
-                }
-                else{
-                    createNewArray(1);
-                }
-            }    
-                allocator_.construct(begin_ + size_, elem);
+        void push_back(const value_type& value){// reikia exception del pasiekto max_size
+            if(end_!=end_of_range){
+            allocator_.construct(end_, value);
+            size_++;
+            end_++;
+            }else{
+                createNewArray(std::max(1,static_cast<int>(capacity_)));//capacity_ size_t neina lygint su int...   
+                allocator_.construct(end_, value);
                 size_++;
                 end_++;
+            }                    
         }
+
+        void push_back(value_type&& value){//move 
+            emplace_back(std::move(value));
+        }
+        
 
         iterator erase( const_iterator pos ){
             const difference_type temp = pos - cbegin();
@@ -578,15 +611,15 @@ template <class T, class Alloc = std::allocator<T>> class vektor{
 
         template< class... Args > 
         iterator emplace( const_iterator pos, Args&&... args ){//neveik
-            if (size_==capacity_){
+            difference_type temp = pos - cbegin();
+            if (end_==end_of_range ){
                 createNewArray(std::max(1,static_cast<int>(capacity_)));//capacity_ size_t neina lygint su int...
             }
-            difference_type temp = pos - cbegin();
-            for(auto i=end_;i>begin_+temp;i--){
-                allocator_.construct(i,*(i-1));
-            }
-            // allocator_.destroy(begin_+temp);
-            // allocator_.construct(begin_+temp,std::forward<Args>(args)...);
+            size_t m=0;
+            for(auto k=end();k>begin()+temp;k--){//
+                allocator_.construct(end_-m,*(end_-1-m));
+                m++;
+            }            allocator_.construct(begin_+temp,std::forward<Args>(args)...);
             size_++;
             end_=A+size_;
             return begin() + temp;
@@ -594,7 +627,7 @@ template <class T, class Alloc = std::allocator<T>> class vektor{
 
         template< class... Args >
         void emplace_back( Args&&... args ){
-            if(size_==capacity_){
+            if(end_ == end_of_range ){
                 createNewArray(std::max(1,static_cast<int>(capacity_)));//capacity_ size_t neina lygint su int...
             }
             allocator_.construct(end_,std::forward<Args>(args)...);
@@ -657,16 +690,17 @@ template <class T, class Alloc = std::allocator<T>> class vektor{
 
 
     private:
-    	void createNewArray(unsigned int added){
+    	void createNewArray(unsigned int added){//del sito suleteja
             pointer B = allocator_.allocate(end_ - begin_ + added);// end_  - begin_ == capacity_ 
 
             for(size_t i = 0 ; i < capacity_; i++){ //construct until copied
-                allocator_.construct( B + i, A[i] );                  
-            }
-
-            for(size_t i = 0 ; i < capacity_; i++){ 
+                allocator_.construct( B + i, A[i] );
                 allocator_.destroy(A +i);             //?    reik funkcijos
             }
+
+            // for(size_t i = 0 ; i < capacity_; i++){ 
+            //     allocator_.destroy(A +i);             //?    reik funkcijos
+            // }
             allocator_.deallocate(A, capacity_);
             capacity_ = capacity_ + added;
 
