@@ -374,10 +374,10 @@ template <class T, class Alloc = std::allocator<T>> class vektor{
             this->capacity_=x.capacity_;
             this->allocator_=x.allocator_;//"The container preserves its current allocator, except if the allocator traits indicate that x's allocator should propagate."
             this->A=(allocator_.allocate(x.size_));
+            this->A = x.A;
             this->begin_= A;
             this->end_=A+size_;
             this->end_of_range=A+capacity_;
-            this->A=std::move(x);   
             return *this;
         }
 

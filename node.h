@@ -2,6 +2,9 @@
 #define NODE_H
 
 #include "math.h"
+#include "vektor.h"
+#include "single.h"
+
 
 #include <iostream>//ostream
 #include <string>//std::string
@@ -11,12 +14,12 @@
 #include <fstream>//stream
 #include <chrono>//std::chrono 
 #include <stdexcept>//std::domain_error
-#include <vector>//std::vector
+#include <vector>//vektor
 #include <deque>//std::deque
 #include <list>//std::list
 
 
-class node{
+class node : public Single{
 
 	public:
 		template<typename T> friend void readNprint(std::string fileName);//skaito ir spausdina
@@ -25,32 +28,32 @@ class node{
 		template<typename T> friend void antraStrategija(int skc);//skaito ir rusiuoja su deque,vector ir list
 		template<typename T> friend void readFromFile(std::string failas, T &konteineris);//skaito duomenis is failo, juos issaugo
 		//sett'ers
-		template<typename T> friend void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved);//prideda struktura prie duomenu laikiklio
+		template<typename T> friend void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, vektor<int> Ved);//prideda struktura prie duomenu laikiklio
         //operatoriai lygina paduotu nariu vidurkius, grazina 1 jei true
         template<typename T> friend bool operator>(T&V,T&V2);
         template<typename T> friend bool operator<(T&V,T&V2);
 		//gett'ers
 		inline std::string getLastName() const{return pavarde;};
 		inline std::string getName() const{return vardas;};
-		inline std::vector<int> getVector() const{return int_vector;};
+		inline vektor<int> getVector() const{return int_vector;};
 		inline unsigned int getEgzas() const{return egzas;};
 		inline double getAverag() const{return Averag;};
 		inline double getMedian() const{return median;};
 	private:
-		std::string pavarde;
-		std::string vardas;
-	    std::vector<int> int_vector;
+		// std::string pavarde;
+		// std::string vardas;
+	    vektor<int> int_vector;
 		int egzas;
 		double Averag;
 		double median;
 
 };
 
-        template<typename T> bool operator>(T&V,T&V2){
+        template<typename T> bool operator>(node &V, node &V2){
             if(V.Averag>V2.Averag){return 1;}
             else return 0;
         }
-        template<typename T> bool operator<(T&V,T&V2){
+        template<typename T> bool operator<(node &V, node &V2){
             if(V.Averag<V2.Averag){return 1;}
             else return 0;
         }
@@ -69,7 +72,7 @@ class node{
  * @tparam     T         { template'as }
  */
 template<typename T> 
-void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, std::vector<int> Ved){//prideda struktura prie duomenu laikiklio
+void plius(T &vedimas,std::string Vpavarde, std::string Vvardas,int Vegzas, vektor<int> Ved){//prideda struktura prie duomenu laikiklio
     node vnt;
     vnt.pavarde = Vpavarde;
     vnt.vardas = Vvardas;
@@ -209,14 +212,14 @@ void readFromFile(std::string failas, T &konteineris){//skaito duomenis is failo
 
     while(std::getline(inf, line)){
         std::istringstream S(line);//linija
-        std::vector<std::string>elementai;//atskiri string
+        vektor<std::string>elementai;//atskiri string
         std::string temp="";
         while (S>>temp){
             elementai.push_back(temp);
         }
         auto dydis=elementai.size();
 
-        std::vector<int> paz;
+        vektor<int> paz;
         int laikinas;
         for(int l=2;l<dydis-1;l++){//pirmi du jau yra
             paz.push_back(std::stoi(elementai[l]));// max narys dydis-2

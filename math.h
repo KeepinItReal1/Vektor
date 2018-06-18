@@ -1,7 +1,9 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include <vector>//std::vector
+#include "vektor.h"
+
+#include <vector>//vektor
 #include <numeric>//std::accumulate
 #include <stdexcept>//std::domain_error
 #include <fstream>//stream
@@ -22,7 +24,7 @@
  *
  * @return     grazina medianos reiksme
  */
-double mediana(std::vector<int>&V){//grazina vektoriaus mediana
+double mediana(vektor<int>&V){//grazina vektoriaus mediana
     std::sort(V.begin(),V.end());
     auto dydis= V.size();
     if(dydis==0){
@@ -38,7 +40,7 @@ double mediana(std::vector<int>&V){//grazina vektoriaus mediana
  *
  * @return     grazina vidurkio reiksme
  */
-double vidurkis(std::vector<int>&V){//grazina vektoriaus vidurki
+double vidurkis(vektor<int>&V){//grazina vektoriaus vidurki
     auto dydis= V.size();
     if(dydis==0){
         throw std::domain_error("Tuscio vectoriaus vidurkio nera.");
